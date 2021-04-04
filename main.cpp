@@ -1,12 +1,8 @@
-/*
-autor: Szymon Marciniec
-nr indeksu: 
+// Projekt zawiera:
+// - wczytanie danych z pliku
+// - metodï¿½ eleminiacji Gaussa bez wyboru elementï¿½w
+// Wszystkie zadeklarowane metody majï¿½ swoje ciaï¿½o po main().
 
-Projekt zawiera punkty 1,2,5 z pdf, tj:
-- wczytanie danych z pliku
-- metodê eleminiacji Gaussa bez wyboru elementów
-Wszystkie zadeklarowane metody maj¹ swoje cia³o po main().
-*/
 #include <iostream>
 #include <windows.h>
 #include <fstream>
@@ -15,50 +11,49 @@ Wszystkie zadeklarowane metody maj¹ swoje cia³o po main().
 #include <locale.h>
 #include <cstdlib>
 
-using namespace std;
+void gaussMethod(int ch, double **tab, int msize); //metoda eliminacji Gaussa bez wyboru elementu
+double **loadData();                               //wczytanie danych z pliku
+void printMenu();                                  //wyswietlenie menu w konsoli
 
-void gaussMethod(int ch, double **tab, int msize);  //metoda eliminacji Gaussa bez wyboru elementu
-double **loadData();        //wczytanie danych z pliku
-void printMenu();       //wyœwietlenie menu w konsoli
-
-int scale;  //rozmiar macierzy (zmienna globalna)
+int scale; //rozmiar macierzy (globalnie)
 
 int main()
 {
     setlocale(LC_CTYPE, "Polish");
-    int choice, msize;   //choice - wybór u¿ytkownika, msize - matrix size
+    int choice, msize; //choice - wybï¿½r uï¿½ytkownika, msize - matrix size
     double **B;
 
-    while(choice != 0)
+    while (choice != 0)
     {
         printMenu();
-        cin>>choice;
+        std::cin >> choice;
 
-        switch(choice)
+        switch (choice)
         {
         case 0:
         {
-            cout<<"\nDo widzenia!"<<endl;
+            std::cout << "\nDo widzenia!" << std::endl;
             return 0;
         }
         break;
 
         case 1:
         {
-            B = loadData();     //metoda loadData() zape³nia tablicê B danymi z pliku
+            B = loadData(); //metoda loadData() zapeï¿½nia tablicï¿½ B danymi z pliku
             gaussMethod(choice, B, msize);
         }
         break;
 
         case 2:
         {
-            gaussMethod(choice, B, msize);  //tablica B na razie pozostaje pusta
+            gaussMethod(choice, B, msize); //tablica B na razie pozostaje pusta
         }
         break;
 
         default:
         {
-            cout<<"\nNiepoprawny wybór!\n"<<endl;
+            std::cout << "\nNiepoprawny wybï¿½r!\n"
+                      << std::endl;
             system("PAUSE");
             system("CLS");
         }
@@ -66,22 +61,21 @@ int main()
         }
     }
 
-    delete []B; //alokacja pamiêci
-    return 0;
+    delete[] B; //alokacja pamiï¿½ci
 }
 
 void gaussMethod(int ch, double **tab, int msize)
 {
     double **arr;
 
-    if (ch == 1)     //tablica juz wype³niona danymi z pliku "dane.csv"
+    if (ch == 1) //tablica juz wypeï¿½niona danymi z pliku "dane.csv"
     {
-        arr = new double*[scale]; //przydzielenie pamiêci
+        arr = new double *[scale]; //przydzielenie pamiï¿½ci
 
-        for(int i=0; i<scale; i++)
+        for (int i = 0; i < scale; i++)
         {
-            arr[i] = new double [scale + 1];
-            for(int j=0; j <= scale; j++)
+            arr[i] = new double[scale + 1];
+            for (int j = 0; j <= scale; j++)
             {
                 arr[i][j] = tab[i][j];
             }
@@ -90,95 +84,98 @@ void gaussMethod(int ch, double **tab, int msize)
 
     else if (ch == 2) //tablica zostanie wypelniona danymi z klawiatury
     {
-        cout<<"Proszê podaæ liczbe równañ: ";
-        cin>>scale;
-        cout<<"\nPodaj (oddzielajac spacj¹) wspó³czynniki i wyrazy wolne (nowa linijka - enter):"<<endl;
+        std::cout << "Proszï¿½ podaï¿½ liczbe rï¿½wnaï¿½: ";
+        std::cin >> scale;
+        std::cout << "\nPodaj (oddzielajac spacjï¿½) wspï¿½czynniki i wyrazy wolne (nowa linijka - enter):" << std::endl;
 
-        arr = new double*[scale];
-        for(int i=0; i<scale; i++) //przypisanie ka¿demu elementowi tablicy arr now¹ tablicê wskaŸników (scale+1)
+        arr = new double *[scale];
+        for (int i = 0; i < scale; i++) //przypisanie kaï¿½demu elementowi tablicy arr nowï¿½ tablicï¿½ wskaï¿½nikï¿½w (scale+1)
         {
-            arr[i] = new double [scale + 1];
+            arr[i] = new double[scale + 1];
         }
-        for(int j=0; j<scale; j++)  //rêczne wpisywanie znaków do tablicy
+        for (int j = 0; j < scale; j++) //rï¿½czne wpisywanie znakï¿½w do tablicy
         {
-            for(int k=0; k <= scale; k++)
+            for (int k = 0; k <= scale; k++)
             {
-                cin>>arr[j][k];
+                std::cin >> arr[j][k];
             }
         }
 
-        cout<<"\nWpisana macierz:\n"<<endl;
-        for(int i=0; i<scale; i++) //wyœwietlanie macierzy
+        std::cout << "\nWpisana macierz:\n"
+                  << std::endl;
+        for (int i = 0; i < scale; i++) //wyï¿½wietlanie macierzy
         {
-            for(int j=0; j <= scale; j++)
+            for (int j = 0; j <= scale; j++)
             {
-                if(j == scale)
+                if (j == scale)
                 {
-                    cout<<setw(10)<<arr[i][j]; //wyœwietlenie w konsoli znaków w okreœlonej odleg³oœci dla przejrzystoœci
+                    std::cout << std::setw(10) << arr[i][j]; //wyï¿½wietlenie w konsoli znakï¿½w w okreï¿½lonej odlegï¿½oï¿½ci dla przejrzystoï¿½ci
                 }
-                else if(j == 0)
+                else if (j == 0)
                 {
-                    cout<<setw(10)<<arr[i][j]<<"";
+                    std::cout << std::setw(10) << arr[i][j] << "";
                 }
                 else
                 {
-                    cout<<setw(10)<<arr[i][j]<<"";
+                    std::cout << std::setw(10) << arr[i][j] << "";
                 }
             }
-            cout<<endl;
+            std::cout << std::endl;
         }
     }
 
-    else cout<<"Wyst¹pi³ b³¹d na poziomie funkcji gaussMethod."<<endl;
+    else
+        std::cout << "WystÄ…piÅ‚ bÅ‚Ä…d na poziomie funkcji gaussMethod." << std::endl;
 
-    double p;   //wspó³czynnik(i)
+    double p; //wspï¿½czynnik(i)
 
-    for(int i=0; i < scale-1; i++) //liczenie macierzy [A|B]
+    for (int i = 0; i < scale - 1; i++) //liczenie macierzy [A|B]
     {
-        if(fabs(arr[i][i]) > 1e-7) //warunek dla a[i][i] != 0, fabs - wartoœæ bezwzglêdna
+        if (fabs(arr[i][i]) > 1e-7) //warunek dla a[i][i] != 0, fabs - wartoï¿½ï¿½ bezwzglï¿½dna
         {
-            for(int j = i+1; j < scale; j++)
+            for (int j = i + 1; j < scale; j++)
             {
-                p = arr[j][i] / arr[i][i];  //obliczanie wspó³czynnika ze wzoru
+                p = arr[j][i] / arr[i][i]; //obliczanie wspï¿½czynnika ze wzoru
 
-                for(int k=0; k <= scale; k++)
+                for (int k = 0; k <= scale; k++)
                 {
-                    arr[j][k] -= p * arr[i][k]; //przekszta³cenia kolejnych wierszy uk³adu wedle wzoru
+                    arr[j][k] -= p * arr[i][k]; //przeksztaï¿½cenia kolejnych wierszy ukï¿½adu wedle wzoru
                 }
             }
-        } //w przypadku nie spe³nienia warunku z if, ten element jest pomijany, program siê nie zamyka
+        } //w przypadku nie speï¿½nienia warunku z if, ten element jest pomijany, program siï¿½ nie zamyka
     }
 
-    cout<<"\nMacierz po eliminacji Gaussa:\n"<<endl;
-    for(int i=0; i < scale; i++) //wyœwietlenie macierzy i wektora wyrazów wolnych
+    std::cout << "\nMacierz po eliminacji Gaussa:\n"
+              << std::endl;
+    for (int i = 0; i < scale; i++) //wyï¿½wietlenie macierzy i wektora wyrazï¿½w wolnych
     {
-        for(int j=0; j <= scale; j++)
+        for (int j = 0; j <= scale; j++)
         {
-            if(j == scale)
+            if (j == scale)
             {
-                cout<<setw(10)<<arr[i][j];
+                std::cout << std::setw(10) << arr[i][j];
             }
-            else if(j == 0)
+            else if (j == 0)
             {
-                cout<<setw(10)<<arr[i][j]<<"";
+                std::cout << std::setw(10) << arr[i][j] << "";
             }
             else
             {
-                cout<<setw(10)<<arr[i][j]<<"";
+                std::cout << std::setw(10) << arr[i][j] << "";
             }
         }
-        cout<<endl; //nastêpny wiersz macierzy
+        std::cout << std::endl; //nastï¿½pny wiersz macierzy
     }
 
-    double arrX[scale];     //tablica iksów
-    bool isPossible = true;     //bool przechowuje informacjê o mo¿liwoœci rozwi¹zania
+    double arrX[scale];     //tablica iksï¿½w
+    bool isPossible = true; //bool przechowuje informacjï¿½ o moï¿½liwoï¿½ci rozwiï¿½zania
 
-    for(int i=scale-1; i>=0; i--)
+    for (int i = scale - 1; i >= 0; i--)
     {
         double X = arr[i][scale];
-        if(fabs(arr[i][i])>1e-7)
+        if (fabs(arr[i][i]) > 1e-7)
         {
-            for(int j=scale-1; j>i; j--)
+            for (int j = scale - 1; j > i; j--)
             {
                 X -= arr[i][j] * arrX[j];
             }
@@ -186,55 +183,57 @@ void gaussMethod(int ch, double **tab, int msize)
         }
         else
         {
-            isPossible=false;
+            isPossible = false;
         }
     }
-    if(isPossible == true)
+    if (isPossible == true)
     {
-        cout<<"\nObliczone X:"<<endl;
-        for(int i=0; i<scale; i++)
+        std::cout << "\nObliczone X:" << std::endl;
+        for (int i = 0; i < scale; i++)
         {
-            cout<<"x"<<i+1<<"= "<<arrX[i]<<endl;
+            std::cout << "x" << i + 1 << "= " << arrX[i] << std::endl;
         }
     }
-    else if(isPossible == false)
+    else if (isPossible == false)
     {
-        cout<<"\nX nie mog¹ byæ policzone."<<endl;
+        std::cout << "\nX nie mogÄ… byÄ‡ policzone." << std::endl;
     }
-    cout<<"\n=========================================================\n"<<endl;
+    std::cout << "\n=========================================================\n"
+              << std::endl;
     system("PAUSE");
     system("CLS");
-    delete []arr;   //alokacja pamiêci
+    delete[] arr; //alokacja pamiï¿½ci
 }
 
 double **loadData()
 {
-    double** A;
-    int matrix_size;    //rozmiar macierzy
-    ifstream source_file("dane.csv");   //œcie¿ka pliku z danymi
-    if (!source_file.is_open())     //sprawdzenie czy plik zosta³ poprawnie otwarty
+    double **A;
+    int matrix_size;                       //rozmiar macierzy
+    std::ifstream source_file("dane.csv"); //ï¿½cieï¿½ka pliku z danymi
+    if (!source_file.is_open())            //sprawdzenie czy plik zostaï¿½ poprawnie otwarty
     {
-        cout<<"\nB³¹d wczytywania pliku! Program siê zakoñczy.\n(Prawdopodobnie nale¿y zmieniæ œcie¿kê pliku.)\n"<<endl;
-        exit(1);    //program siê zamyka zamiast powrotu do menu - ¿eby zmieniæ œcie¿kê pliku
+        std::cout << "\nBÅ‚Ä…d wczytywania pliku! Program siÄ™ zakoÅ„czy.\n(Prawdopodobnie naleÅ¼y zmieniÄ‡ Å›cieÅ¼kÄ™ pliku.)\n"
+                  << std::endl;
+        exit(1); //program siï¿½ zamyka zamiast powrotu do menu - ï¿½eby zmieniï¿½ ï¿½cieï¿½kï¿½ pliku
     }
     else
     {
         source_file >> matrix_size;
-        A = new double*[matrix_size];
-        for(int i = 0; i< matrix_size; i++)
+        A = new double *[matrix_size];
+        for (int i = 0; i < matrix_size; i++)
         {
-            A[i] = new double[matrix_size+1];
+            A[i] = new double[matrix_size + 1];
         }
 
         char semicolumn;
-        for (int i = 0; i < matrix_size+1; i++)
+        for (int i = 0; i < matrix_size + 1; i++)
             source_file >> semicolumn;
 
         for (int i = 0; i < matrix_size; i++)
         {
-            for (int j = 0; j <=matrix_size; j++)
+            for (int j = 0; j <= matrix_size; j++)
             {
-                if(j==matrix_size)
+                if (j == matrix_size)
                 {
                     source_file >> semicolumn;
                     source_file >> A[i][j];
@@ -248,45 +247,48 @@ double **loadData()
         }
         source_file.close();
 
-        cout<<"\nMacierz pomyœlnie za³adowana z pliku. Rozmiar: "<<matrix_size<<"x"<<matrix_size<<" (+ wektor)"<<endl;
-        cout<<"\nWczytana macierz:\n"<<endl;
-        for(int i=0; i<matrix_size; i++)
+        std::cout << "\nMacierz pomyÅ›lnie zaÅ‚adowana z pliku. Rozmiar: " << matrix_size << "x" << matrix_size << " (+ wektor)" << std::endl;
+        std::cout << "\nWczytana macierz:\n"
+                  << std::endl;
+        for (int i = 0; i < matrix_size; i++)
         {
-            for(int j=0; j<=matrix_size; j++)
+            for (int j = 0; j <= matrix_size; j++)
             {
-                if(j == matrix_size)
+                if (j == matrix_size)
                 {
-                    cout<<setw(10)<<A[i][j];
+                    std::cout << std::setw(10) << A[i][j];
                 }
-                else if(j == 0)
+                else if (j == 0)
                 {
-                    cout<<setw(10)<<A[i][j]<<"";
+                    std::cout << std::setw(10) << A[i][j] << "";
                 }
                 else
                 {
-                    cout<<setw(10)<<A[i][j]<<"";
+                    std::cout << std::setw(10) << A[i][j] << "";
                 }
             }
-            cout<<endl;
+            std::cout << std::endl;
         }
     }
     scale = matrix_size;
 
-    return A; //zwrócenie macierzy (tablicy) A
+    return A; //zwrï¿½cenie macierzy (tablicy) A
 }
 
-void printMenu() //tylko szczegó³y wizualne menu
+void printMenu() //tylko szczegï¿½y wizualne menu
 {
     HANDLE hOut;
     hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hOut, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
-    cout<<"\n======================== MENU PROGRAMU ========================\n"<<endl;
-    cout<<setw(55)<<"Metoda eliminacji Gaussa bez wyboru elementu."<<endl;
-    cout<<"\n---------------------------------------------------------------\n"<<endl;
+    std::cout << "\n======================== MENU PROGRAMU ========================\n"
+              << std::endl;
+    std::cout << std::setw(55) << "Metoda eliminacji Gaussa bez wyboru elementu." << std::endl;
+    std::cout << "\n---------------------------------------------------------------\n"
+              << std::endl;
     SetConsoleTextAttribute(hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
-    cout<<"Opcje:"<<endl;
-    cout<<"\n1 - wczytanie danych z pliku"<<endl;
-    cout<<"2 - dane z klawiatury"<<endl;
-    cout<<"\n0 - wyjœcie z programu"<<endl;
-    cout<<"\nWybór: ";
+    std::cout << "Opcje:" << std::endl;
+    std::cout << "\n1 - wczytanie danych z pliku" << std::endl;
+    std::cout << "2 - dane z klawiatury" << std::endl;
+    std::cout << "\n0 - wyjÅ›cie z programu" << std::endl;
+    std::cout << "\nWybÃ³r: ";
 }
