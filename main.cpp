@@ -1,7 +1,7 @@
 // Projekt zawiera:
 // - wczytanie danych z pliku
-// - metod� eleminiacji Gaussa bez wyboru element�w
-// Wszystkie zadeklarowane metody maj� swoje cia�o po main().
+// - algorytm rozwiązywania układów równań metodą eliminacji Gaussa bez wyboru elementów
+// Wszystkie zadeklarowane metody mają swoje ciało po main().
 
 #include <iostream>
 #include <windows.h>
@@ -20,7 +20,7 @@ int scale; //rozmiar macierzy (globalnie)
 int main()
 {
     setlocale(LC_CTYPE, "Polish");
-    int choice, msize; //choice - wyb�r u�ytkownika, msize - matrix size
+    int choice, msize; //choice - wybór użytkownika, msize - matrix size
     double **B;
 
     while (choice != 0)
@@ -39,7 +39,7 @@ int main()
 
         case 1:
         {
-            B = loadData(); //metoda loadData() zape�nia tablic� B danymi z pliku
+            B = loadData(); //metoda loadData() zapełnia tablicę B danymi z pliku
             gaussMethod(choice, B, msize);
         }
         break;
@@ -61,16 +61,16 @@ int main()
         }
     }
 
-    delete[] B; //alokacja pami�ci
+    delete[] B; //alokacja pamięci
 }
 
 void gaussMethod(int ch, double **tab, int msize)
 {
     double **arr;
 
-    if (ch == 1) //tablica juz wype�niona danymi z pliku "dane.csv"
+    if (ch == 1) //tablica juz wypełniona danymi z pliku "dane.csv"
     {
-        arr = new double *[scale]; //przydzielenie pami�ci
+        arr = new double *[scale]; //przydzielenie pamięci
 
         for (int i = 0; i < scale; i++)
         {
@@ -84,16 +84,16 @@ void gaussMethod(int ch, double **tab, int msize)
 
     else if (ch == 2) //tablica zostanie wypelniona danymi z klawiatury
     {
-        std::cout << "Prosz� poda� liczbe r�wna�: ";
+        std::cout << "Proszę podać liczbe równań: ";
         std::cin >> scale;
-        std::cout << "\nPodaj (oddzielajac spacj�) wsp�czynniki i wyrazy wolne (nowa linijka - enter):" << std::endl;
+        std::cout << "\nPodaj (oddzielajac spacją) wspóczynniki i wyrazy wolne (nowa linijka - enter):" << std::endl;
 
         arr = new double *[scale];
-        for (int i = 0; i < scale; i++) //przypisanie ka�demu elementowi tablicy arr now� tablic� wska�nik�w (scale+1)
+        for (int i = 0; i < scale; i++) //przypisanie każdemu elementowi tablicy arr nowwą tablicę wskaźników (scale+1)
         {
             arr[i] = new double[scale + 1];
         }
-        for (int j = 0; j < scale; j++) //r�czne wpisywanie znak�w do tablicy
+        for (int j = 0; j < scale; j++) //ręczne wpisywanie znaków do tablicy
         {
             for (int k = 0; k <= scale; k++)
             {
@@ -103,13 +103,13 @@ void gaussMethod(int ch, double **tab, int msize)
 
         std::cout << "\nWpisana macierz:\n"
                   << std::endl;
-        for (int i = 0; i < scale; i++) //wy�wietlanie macierzy
+        for (int i = 0; i < scale; i++) //wyświetlanie macierzy
         {
             for (int j = 0; j <= scale; j++)
             {
                 if (j == scale)
                 {
-                    std::cout << std::setw(10) << arr[i][j]; //wy�wietlenie w konsoli znak�w w okre�lonej odleg�o�ci dla przejrzysto�ci
+                    std::cout << std::setw(10) << arr[i][j]; //wyświetlenie w konsoli znaków w określonej odległości
                 }
                 else if (j == 0)
                 {
@@ -127,27 +127,27 @@ void gaussMethod(int ch, double **tab, int msize)
     else
         std::cout << "Wystąpił błąd na poziomie funkcji gaussMethod." << std::endl;
 
-    double p; //wsp�czynnik(i)
+    double p; //współczynnik(i)
 
     for (int i = 0; i < scale - 1; i++) //liczenie macierzy [A|B]
     {
-        if (fabs(arr[i][i]) > 1e-7) //warunek dla a[i][i] != 0, fabs - warto�� bezwzgl�dna
+        if (fabs(arr[i][i]) > 1e-7) //warunek dla a[i][i] != 0
         {
             for (int j = i + 1; j < scale; j++)
             {
-                p = arr[j][i] / arr[i][i]; //obliczanie wsp�czynnika ze wzoru
+                p = arr[j][i] / arr[i][i]; //obliczanie wspóczynnika ze wzoru
 
                 for (int k = 0; k <= scale; k++)
                 {
-                    arr[j][k] -= p * arr[i][k]; //przekszta�cenia kolejnych wierszy uk�adu wedle wzoru
+                    arr[j][k] -= p * arr[i][k]; //przekształcenia kolejnych wierszy układu wedle wzoru
                 }
             }
-        } //w przypadku nie spe�nienia warunku z if, ten element jest pomijany, program si� nie zamyka
+        } //w przypadku nie spełnienia warunku z if, ten element jest pomijany, program się nie zamyka
     }
 
     std::cout << "\nMacierz po eliminacji Gaussa:\n"
               << std::endl;
-    for (int i = 0; i < scale; i++) //wy�wietlenie macierzy i wektora wyraz�w wolnych
+    for (int i = 0; i < scale; i++) //wyświetlenie macierzy i wektora wyrazów wolnych
     {
         for (int j = 0; j <= scale; j++)
         {
@@ -164,11 +164,11 @@ void gaussMethod(int ch, double **tab, int msize)
                 std::cout << std::setw(10) << arr[i][j] << "";
             }
         }
-        std::cout << std::endl; //nast�pny wiersz macierzy
+        std::cout << std::endl; //następny wiersz macierzy
     }
 
-    double arrX[scale];     //tablica iks�w
-    bool isPossible = true; //bool przechowuje informacj� o mo�liwo�ci rozwi�zania
+    double arrX[scale];     //tablica iksów
+    bool isPossible = true; //bool przechowuje informację o możliwości rozwiązania
 
     for (int i = scale - 1; i >= 0; i--)
     {
@@ -209,12 +209,12 @@ double **loadData()
 {
     double **A;
     int matrix_size;                       //rozmiar macierzy
-    std::ifstream source_file("dane.csv"); //�cie�ka pliku z danymi
-    if (!source_file.is_open())            //sprawdzenie czy plik zosta� poprawnie otwarty
+    std::ifstream source_file("dane.csv"); //ścieżka pliku z danymi
+    if (!source_file.is_open())            //sprawdzenie czy plik zostałpoprawnie otwarty
     {
         std::cout << "\nBłąd wczytywania pliku! Program się zakończy.\n(Prawdopodobnie należy zmienić ścieżkę pliku.)\n"
                   << std::endl;
-        exit(1); //program si� zamyka zamiast powrotu do menu - �eby zmieni� �cie�k� pliku
+        exit(1); //program się zamyka zamiast powrotu do menu należy zmienić ścieżkę pliku
     }
     else
     {
@@ -272,10 +272,10 @@ double **loadData()
     }
     scale = matrix_size;
 
-    return A; //zwr�cenie macierzy (tablicy) A
+    return A; //zwrócenie macierzy (tablicy) A
 }
 
-void printMenu() //tylko szczeg�y wizualne menu
+void printMenu() //tylko szczegły wizualne menu
 {
     HANDLE hOut;
     hOut = GetStdHandle(STD_OUTPUT_HANDLE);
